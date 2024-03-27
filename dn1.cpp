@@ -1,4 +1,29 @@
-#include <iostream>  
-#include <vector>    
-#include <algorithm> 
+#include <iostream>
+#include <vector>
 #include <fstream>
+#include <algorithm>
+
+// Funkcija za izvajanje counting sorta za specifičen bit
+void countingSortByBit(std::vector<unsigned char>& A, int k, std::vector<unsigned char>& B) {
+    std::vector<unsigned char> output(A.size());
+    int count[2] = {0};
+
+    // Ustvarjanje polja bitov D na osnovi k-tega bita vsakega elementa v A
+    std::vector<int> D(A.size());
+    for (size_t i = 0; i < A.size(); i++) {
+        D[i] = (A[i] >> k) & 1;
+        count[D[i]]++;
+    }
+
+    // Izračun prefix sum
+    count[1] += count[0];
+
+    // Urejanje glede na bit in shranjevanje v polje B
+    for (int i = A.size() - 1; i >= 0; i--) {
+        B[--count[D[i]]] = A[i];
+    }
+
+    // Posodabljanje A z urejenimi vrednostmi iz B
+    A = B;
+}
+
