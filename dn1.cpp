@@ -27,3 +27,11 @@ void countingSortByBit(std::vector<unsigned char>& A, int k, std::vector<unsigne
     A = B;
 }
 
+// Glavna funkcija za radix sort
+void radixSort(std::vector<unsigned char>& A) {
+    std::vector<unsigned char> B(A.size()); // Dodatno polje za sortiranje
+    for (int k = 0; k < 8; k++) {
+        countingSortByBit(A, k, B);
+    }
+}
+
