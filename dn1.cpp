@@ -35,3 +35,43 @@ void radixSort(std::vector<unsigned char>& A) {
     }
 }
 
+int main(int argc, char* argv[]) {
+   
+    std::ifstream inputFile(argv[1]);
+    std::ofstream outputFile("out.txt");
+    if (!inputFile.is_open()) {
+        std::cerr << "Napaka pri odpiranju vhodne datoteke." << std::endl;
+        return 1;
+    }
+
+    std::vector<unsigned char> A; // Polje vhodnih števil
+    unsigned int num;
+
+    
+    while (inputFile >> num) {
+        if (num > 255) {
+            std::cerr << "Napaka: število izven dovoljenega obsega [0, 255]." << std::endl;
+            return 1;
+        }
+        A.push_back(static_cast<unsigned char>(num));
+    }
+
+    radixSort(A); // Izvedba radix sorta na polju A
+
+     for (auto num : A) {
+        outputFile << static_cast<unsigned int>(num) << " ";
+    }
+
+      inputFile.close();
+    outputFile.close();
+
+    return 0;
+    
+    
+
+
+
+   
+}
+
+
