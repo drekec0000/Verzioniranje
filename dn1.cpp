@@ -61,6 +61,11 @@ int main(int argc, char* argv[]) {
      for (auto num : A) {
         outputFile << static_cast<unsigned int>(num) << " ";
     }
+
+      inputFile.close();
+    outputFile.close();
+
+    return 0;
     
     
 
