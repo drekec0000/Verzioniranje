@@ -44,6 +44,11 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    std::vector<unsigned char> A; // Polje vhodnih števil
+    unsigned int num;
+    
+
+
    
 }
 
