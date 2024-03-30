@@ -55,6 +55,8 @@ int main(int argc, char* argv[]) {
         }
         A.push_back(static_cast<unsigned char>(num));
     }
+
+    radixSort(A); // Izvedba radix sorta na polju A
     
     
 
