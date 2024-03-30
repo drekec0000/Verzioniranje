@@ -57,6 +57,10 @@ int main(int argc, char* argv[]) {
     }
 
     radixSort(A); // Izvedba radix sorta na polju A
+
+     for (auto num : A) {
+        outputFile << static_cast<unsigned int>(num) << " ";
+    }
     
     
 
