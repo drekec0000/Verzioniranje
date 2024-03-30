@@ -35,3 +35,16 @@ void radixSort(std::vector<unsigned char>& A) {
     }
 }
 
+int main(int argc, char* argv[]) {
+   
+    std::ifstream inputFile(argv[1]);
+    std::ofstream outputFile("out.txt");
+    if (!inputFile.is_open()) {
+        std::cerr << "Napaka pri odpiranju vhodne datoteke." << std::endl;
+        return 1;
+    }
+
+   
+}
+
+
