@@ -46,7 +46,18 @@ int main(int argc, char* argv[]) {
 
     std::vector<unsigned char> A; // Polje vhodnih števil
     unsigned int num;
+
     
+    while (inputFile >> num) {
+        if (num > 255) {
+            std::cerr << "Napaka: število izven dovoljenega obsega [0, 255]." << std::endl;
+            return 1;
+        }
+        A.push_back(static_cast<unsigned char>(num));
+    }
+    
+    
+
 
 
    
