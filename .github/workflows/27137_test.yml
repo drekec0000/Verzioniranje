@@ -6,39 +6,58 @@ jobs:
   setup-and-compile:
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v2
-    - name: Install C++ Compiler
-      run: sudo apt-get update && sudo apt-get install -y g++
-    - name: Compile the Project
-      run: g++ -o sort_program dn1.cpp 2> napaka.txt || echo "Compilation Error" > napaka.txt
-    - name: Upload Compilation Error if Exists
-      uses: actions/upload-artifact@v2
-      with:
-        name: compilation_errors
-        path: napaka.txt
+      - uses: actions/checkout@v2
+      - name: Install C++ Compiler
+        run: sudo apt-get update && sudo apt-get install -y g++
+      - name: Compile the Project
+        run: g++ -o sort_program dn1.cpp 2> napaka.txt || echo "Compilation Error" > napaka.txt
+      - name: Upload Compilation Error if Exists
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: compilation_errors
+          path: napaka.txt
 
   test:
     needs: setup-and-compile
     runs-on: self-hosted
+    strategy:
+      matrix:
+        test-case: [1, 2, 3]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@v2
-      with:
-        name: compilation_errors
-    - name: Check for Compilation Errors
-      run: |
-        if [ -s napaka.txt ]; then
-          cat napaka.txt
-          exit 1
-        fi
-    - name: Run Test Cases
-      run: |
-        echo -e "3\n2\n1" > test_input.txt
-        ./sort_program test_input.txt
-        sort -n test_input.txt > expected_output.txt
-        if cmp -s expected_output.txt out.txt; then
-          echo "Test Passed"
-        else
-          echo "Test Failed: Output does not match expected output"
-          exit 1
-        fi
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: compilation_errors
+      - name: Check for Compilation Errors
+        run: |
+          if [ -f napaka.txt ]; then
+            echo "Compilation errors found:"
+            cat napaka.txt
+            exit 1
+          fi
+      - name: Generate Test Input and Expected Output
+        run: |
+          case ${{ matrix.test-case }} in
+            1)
+              echo -e "3\n2\n1" > input.txt
+              echo -e "1\n2\n3" > expected_output.txt
+              ;;
+            2)
+              echo -e "1\n3\n2" > input.txt
+              echo -e "1\n2\n3" > expected_output.txt
+              ;;
+            3)
+              echo -e "5\n4\n3\n2\n1" > input.txt
+              echo -e "1\n2\n3\n4\n5" > expected_output.txt
+              ;;
+          esac
+      - name: Run Sort Program and Check Output
+        run: |
+          ./sort_program input.txt
+          if cmp -s expected_output.txt out.txt; then
+            echo "Test ${{ matrix.test-case }} Passed"
+          else
+            echo "Test ${{ matrix.test-case }} Failed: Output does not match expected output"
+            exit 1
+          fi
