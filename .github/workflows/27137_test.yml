@@ -37,7 +37,7 @@ jobs:
         ./sort_program test_input.txt
         sort -n test_input.txt > expected_output.txt
         if cmp -s expected_output.txt out.txt; then
-          echo "Test Passed"
+          echo "Tesst Passed"
         else
           echo "Test Failed: Output does not match expected output"
           exit 1
