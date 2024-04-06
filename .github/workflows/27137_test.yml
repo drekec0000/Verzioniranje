@@ -4,11 +4,7 @@ on: [push]
 
 jobs:
   setup-and-compile:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [kali-linux]
-
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - name: Install C++ Compiler
@@ -23,11 +19,7 @@ jobs:
 
   test:
     needs: setup-and-compile
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [kali-linux]
-
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2
